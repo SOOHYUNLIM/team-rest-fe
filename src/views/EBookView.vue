@@ -1,6 +1,6 @@
 <template>
     <v-container class="container" fill-height fluid>
-        <v-row align-content justify="center">
+        <v-row align-center="center" justify="center">
             <v-scroll-x-transition>
                 <v-card v-show="true" width="50%" min-width="300">
                     <v-card-title>
@@ -42,7 +42,7 @@
                 </v-card>
             </v-scroll-x-transition>
         </v-row>
-        <FileUploadModal :modal="modal"></FileUploadModal>
+        <FileUploadModal v-model="modal"></FileUploadModal>
     </v-container>
 
 </template>

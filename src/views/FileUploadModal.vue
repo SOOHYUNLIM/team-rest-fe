@@ -1,9 +1,9 @@
 <template>
     <v-dialog width="30%" min-width="300" v-model="status">
-        <v-card>
+        <v-card :disabled="wait" :loading="wait">
             <v-card-title>파일을 올려주세요...</v-card-title>
             <v-card-text>
-                <FileUpload></FileUpload>
+                <FileUpload v-model="btnEvent"></FileUpload>
             </v-card-text>
         </v-card>
     </v-dialog>
@@ -18,18 +18,31 @@ export default {
         FileUpload
     },
     props: {
-        modal: {
+        value: {
             type: Boolean
+        },
+        wait: {
+            type: Boolean
+        }
+    },
+    data() {
+        return {
+            btnEvent: false
         }
     },
     computed: {
         status: {
             get() {
-                return this.modal
+                return this.value
             },
             set(status) {
-                return status
+                this.$emit('input', status)
             }
+        }
+    },
+    watch: {
+        btnEvent: function (hook) {
+            this.wait = hook ? true : false
         }
     }
 }

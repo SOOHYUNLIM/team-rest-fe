@@ -1,5 +1,5 @@
 <template>
-    <v-layout align-content justify="center" column>
+    <v-layout align-center="center" justify="center" column>
         <v-row>
             <v-col cols="4">
                 <v-switch label="번역"></v-switch>
@@ -17,15 +17,16 @@
 </template>
 
 <script>
-import Axios from "axios";
+// import ApiUtil from "../util/ApiUtil";
+import Axios from "axios"
 
 export default {
-    name: 'FileUpload'
-
-    //확인을 누르면 axios호출
-    //대기중으로 변경시키기 위해 상태 data 들고있기
-    //누르면 상위 컴포넌트에게 대기하라 명령하고 응답오면 대기종료 보내기
-    ,
+    name: 'FileUpload',
+    props: {
+        event: {
+            type: Boolean
+        }
+    },
     data() {
       return {
           file: null
@@ -34,9 +35,19 @@ export default {
     methods: {
         fileUpload() {
             if(this.file) {
+                this.$emit('input', true)
                 let formData = new FormData()
                 formData.append("file", this.file)
-                Axios.post("http://localhost:8080/ebook/upload", formData).then(()=>alert("파일 변환 완료!")).catch(error=>console.log(error))
+                Axios.post("http://localhost:8080/ebook/upload", formData)
+                    .then(()=>{
+                        alert("파일 변환 완료!")
+                        this.$emit('input', false)
+                    })
+                    .catch(error=>{
+                        console.log(error)
+                        // this.$emit('input', false)
+                    })
+                // ApiUtil.fileUpload("http://localhost:8080/ebook/upload", this.file)
             } else {
                 alert("파일을 선택해주세요!")
             }
