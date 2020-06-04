@@ -29,15 +29,25 @@
                                     <v-list-item-content>
                                         <v-list-item-title v-text="item.text"></v-list-item-title>
                                     </v-list-item-content>
-                                    <v-list-item-icon>
-                                        <v-icon>mdi-play</v-icon>
-                                        <v-icon>mdi-download</v-icon>
-                                        <v-icon>mdi-delete</v-icon>
-                                    </v-list-item-icon>
+                                    <v-list-item-action>
+                                        <v-btn icon>
+                                            <v-icon>mdi-play</v-icon>
+                                        </v-btn>
+                                    </v-list-item-action>
+                                    <v-list-item-action>
+                                        <v-btn icon>
+                                            <v-icon>mdi-download</v-icon>
+                                        </v-btn>
+                                    </v-list-item-action>
+                                    <v-list-item-action>
+                                        <v-btn icon>
+                                            <v-icon>mdi-delete</v-icon>
+                                        </v-btn>
+                                    </v-list-item-action>
                                 </v-list-item>
                             </v-list-item-group>
                         </v-list>
-                        <v-pagination :length="4" v-model="page" circle></v-pagination>
+                        <v-pagination :length="5" v-model="page" circle></v-pagination>
                     </v-card-text>
                 </v-card>
             </v-scroll-x-transition>
@@ -58,12 +68,12 @@
         },
         data: () => ({
             modal: false,
-            page: 3,
+            page: 1,
             item: null,
             items: [
-                {text: 'Real-Time', icon: 'mdi-delete_outline'},
-                {text: 'Audience', icon: 'mdi-account'},
-                {text: 'Conversions', icon: 'mid-article'},
+                {text: '리액트 네이티브 초판'},
+                {text: 'Head First Servlets & JSP'},
+                {text: 'J2EE Development without EJB'},
             ]
         })
     }
