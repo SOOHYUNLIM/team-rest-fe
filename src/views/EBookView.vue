@@ -16,7 +16,7 @@
                         </v-row>
                     </v-card-title>
                     <v-card-text>
-                        <v-audio style="box-shadow:none"></v-audio>
+                        <v-audio :file="mp3" style="box-shadow:none"></v-audio>
                         <v-list dense>
                             <v-subheader>
                                 <v-flex xs9>Title</v-flex>
@@ -27,10 +27,10 @@
                             <v-list-item-group v-model="item" color="primary">
                                 <v-list-item v-for="(item, i) in items" :key="i">
                                     <v-list-item-content>
-                                        <v-list-item-title v-text="item.text"></v-list-item-title>
+                                        <v-list-item-title v-text="item.title"></v-list-item-title>
                                     </v-list-item-content>
                                     <v-list-item-action>
-                                        <v-btn icon>
+                                        <v-btn @click="playMp3" icon>
                                             <v-icon>mdi-play</v-icon>
                                         </v-btn>
                                     </v-list-item-action>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+    import Axios from "axios"
     import VuetifyAudio from 'vuetify-audio';
     import FileUploadModal from './FileUploadModal';
 
@@ -72,10 +73,22 @@
             item: null,
             items: [
                 {text: '리액트 네이티브 초판'},
-                {text: 'Head First Servlets & JSP'},
-                {text: 'J2EE Development without EJB'},
-            ]
-        })
+                // {text: 'Head First Servlets & JSP'},
+                // {text: 'J2EE Development without EJB'},
+            ],
+            mp3: null
+        }),
+        created() {
+          this.getList()
+        },
+        methods: {
+            getList() {
+                Axios.get("http://localhost:8080/ebook/list/0").then(response=>this.items = response.data)
+            },
+            playMp3() {
+                this.mp3 = "http://localhost:8080/ebook/play/"+""
+            }
+        }
     }
 </script>
 
