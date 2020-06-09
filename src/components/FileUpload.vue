@@ -17,7 +17,6 @@
 </template>
 
 <script>
-// import ApiUtil from "../util/ApiUtil";
 import Axios from "axios"
 
 export default {

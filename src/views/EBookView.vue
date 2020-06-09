@@ -9,44 +9,13 @@
                                 <h1>Book Player</h1>
                             </v-col>
                             <v-col class="text-right">
-                                <v-btn @click="modal=true" icon color="blue">
-                                    <v-icon>mdi-upload</v-icon>
-                                </v-btn>
+                                <IconBtn :event="uploadBtn" icon="mdi-upload"></IconBtn>
                             </v-col>
                         </v-row>
                     </v-card-title>
                     <v-card-text>
                         <v-audio :file="mp3" style="box-shadow:none"></v-audio>
-                        <v-list dense>
-                            <v-subheader>
-                                <v-flex xs9>Title</v-flex>
-                                <v-flex xs1>Play</v-flex>
-                                <v-flex xs1>Down</v-flex>
-                                <v-flex xs1>Del</v-flex>
-                            </v-subheader>
-                            <v-list-item-group v-model="item" color="primary">
-                                <v-list-item v-for="(item, i) in items" :key="i">
-                                    <v-list-item-content>
-                                        <v-list-item-title v-text="item.title"></v-list-item-title>
-                                    </v-list-item-content>
-                                    <v-list-item-action>
-                                        <v-btn @click="playMp3" icon>
-                                            <v-icon>mdi-play</v-icon>
-                                        </v-btn>
-                                    </v-list-item-action>
-                                    <v-list-item-action>
-                                        <v-btn icon>
-                                            <v-icon>mdi-download</v-icon>
-                                        </v-btn>
-                                    </v-list-item-action>
-                                    <v-list-item-action>
-                                        <v-btn icon>
-                                            <v-icon>mdi-delete</v-icon>
-                                        </v-btn>
-                                    </v-list-item-action>
-                                </v-list-item>
-                            </v-list-item-group>
-                        </v-list>
+                        <TodoList :items="items"></TodoList>
                         <v-pagination :length="5" v-model="page" circle></v-pagination>
                     </v-card-text>
                 </v-card>
@@ -54,39 +23,48 @@
         </v-row>
         <FileUploadModal v-model="modal"></FileUploadModal>
     </v-container>
-
 </template>
 
 <script>
     import Axios from "axios"
     import VuetifyAudio from 'vuetify-audio';
     import FileUploadModal from './FileUploadModal';
+    import IconBtn from "../components/IconBtn";
+    import TodoList from "../components/TodoList"
+    import {EventBus} from "../util/EventBus";
 
     export default {
+        name: "EBookView",
         components: {
             'v-audio': VuetifyAudio,
-            FileUploadModal
+            FileUploadModal,
+            IconBtn,
+            TodoList
         },
         data: () => ({
             modal: false,
             page: 1,
-            item: null,
             items: [
-                {text: '리액트 네이티브 초판'},
-                // {text: 'Head First Servlets & JSP'},
-                // {text: 'J2EE Development without EJB'},
+                {title: '리액트 네이티브 초판'},
             ],
-            mp3: null
+            // mp3: null
         }),
         created() {
-          this.getList()
+          // this.getList()
         },
         methods: {
+            uploadBtn() {
+                this.modal = true
+            },
             getList() {
                 Axios.get("http://localhost:8080/ebook/list/0").then(response=>this.items = response.data)
-            },
-            playMp3() {
-                this.mp3 = "http://localhost:8080/ebook/play/"+""
+            }
+        },
+        computed: {
+            mp3() {
+                let result = null
+                EventBus.$on("mp3", mp3 => result = mp3)
+                return result
             }
         }
     }
