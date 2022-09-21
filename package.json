@@ -15,7 +15,7 @@
     "vue-axios": "^2.1.5",
     "vue-material-design-icons": "^4.7.1",
     "vue-router": "^3.3.2",
-    "vuetify": "^2.2.32",
+    "vuetify": "^2.6.10",
     "vuetify-audio": "^0.3.2"
   },
   "devDependencies": {
